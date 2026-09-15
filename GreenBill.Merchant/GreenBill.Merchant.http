@@ -1,0 +1,6 @@
+@GreenBill.Merchant_HostAddress = http://localhost:5064
+
+GET {{GreenBill.Merchant_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

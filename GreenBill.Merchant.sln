@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35913.81
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GreenBill.Merchant.API", "GreenBill.Merchant\GreenBill.Merchant.API.csproj", "{9DC3FAED-E8E3-4B4C-B404-121E033AB7EC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GreenBill.Merchant.Infrastructure", "GreenBill.Merchant.Infrastructure\GreenBill.Merchant.Infrastructure.csproj", "{6D41DF9E-2148-4E6E-86E4-78EB0220CE14}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GreenBill.Merchant.Domain", "GreenBill.Merchant.Domain\GreenBill.Merchant.Domain.csproj", "{073EC2AD-0F0E-4261-BCEB-8AE1DC0815F1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GreenBill.Merchant.Application", "GreenBill.Merchant.Application\GreenBill.Merchant.Application.csproj", "{80682C87-2EB3-4986-8DD7-0562F075A5E1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9DC3FAED-E8E3-4B4C-B404-121E033AB7EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DC3FAED-E8E3-4B4C-B404-121E033AB7EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DC3FAED-E8E3-4B4C-B404-121E033AB7EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DC3FAED-E8E3-4B4C-B404-121E033AB7EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D41DF9E-2148-4E6E-86E4-78EB0220CE14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D41DF9E-2148-4E6E-86E4-78EB0220CE14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D41DF9E-2148-4E6E-86E4-78EB0220CE14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D41DF9E-2148-4E6E-86E4-78EB0220CE14}.Release|Any CPU.Build.0 = Release|Any CPU
+		{073EC2AD-0F0E-4261-BCEB-8AE1DC0815F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{073EC2AD-0F0E-4261-BCEB-8AE1DC0815F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{073EC2AD-0F0E-4261-BCEB-8AE1DC0815F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{073EC2AD-0F0E-4261-BCEB-8AE1DC0815F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80682C87-2EB3-4986-8DD7-0562F075A5E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80682C87-2EB3-4986-8DD7-0562F075A5E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80682C87-2EB3-4986-8DD7-0562F075A5E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80682C87-2EB3-4986-8DD7-0562F075A5E1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7C432D39-D998-461B-8137-5E7539F3A18E}
+	EndGlobalSection
+EndGlobal
