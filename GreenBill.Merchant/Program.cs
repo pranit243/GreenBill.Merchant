@@ -1,22 +1,62 @@
 using GreenBill.Merchant.API.Filter;
-using GreenBill.Merchant.Infrastructure.Persistent;
+using GreenBill.Merchant.API.Middleware;
+using GreenBill.Merchant.Application;
+using GreenBill.Merchant.Domain.Constants;
+using GreenBill.Merchant.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Services.AddScoped<EnsureUserExistsActionFilter>();
 
-builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
-
-builder.Services.AddDbContext<MerchantDbContext>(options =>
+builder.Services.AddControllers(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("MerchantDatabase"));
+    options.Filters.Add<EnsureUserExistsActionFilter>();
 });
+
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy
+            .AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = Microsoft.OpenApi.Models.SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT",
+        In = Microsoft.OpenApi.Models.ParameterLocation.Header
+    });
+    options.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
+    {
+        {
+            new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+            {
+                Reference = new Microsoft.OpenApi.Models.OpenApiReference
+                {
+                    Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            []
+        }
+    });
+});
+
+builder.Services.AddApplication();
+builder.Services.AddInfrastructure(builder.Configuration);
 
 var jwtSection = builder.Configuration.GetSection("Jwt");
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -38,29 +78,27 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddAuthorization(options =>
 {
-    options.FallbackPolicy = new Microsoft.AspNetCore.Authorization.AuthorizationPolicyBuilder()
+    options.FallbackPolicy = new AuthorizationPolicyBuilder()
         .RequireAuthenticatedUser()
         .Build();
-    options.AddPolicy("MerchantOnly", policy => policy.RequireRole("Merchant"));
-    options.AddPolicy("OwnerOnly", policy => policy.RequireRole("Owner"));
-    options.AddPolicy("CustomerOnly", policy => policy.RequireRole("Customer"));
-    options.AddPolicy("PartnerOnly", policy => policy.RequireRole("Partner"));
-});
-
-builder.Services.AddScoped<EnsureUserExistsActionFilter>();
-
-builder.Services.AddControllers(options =>
-{
-    options.Filters.Add<EnsureUserExistsActionFilter>();
+    options.AddPolicy("OwnerOnly", policy => policy.RequireRole(RoleNames.Owner));
+    options.AddPolicy("MerchantOnly", policy => policy.RequireRole(RoleNames.Merchant));
+    options.AddPolicy("CustomerOnly", policy => policy.RequireRole(RoleNames.Customer));
+    options.AddPolicy("PartnerOnly", policy => policy.RequireRole(RoleNames.Partner));
 });
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+app.UseMiddleware<CorrelationIdMiddleware>();
+app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
+
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
+
+app.UseCors();
 
 app.UseHttpsRedirection();
 
